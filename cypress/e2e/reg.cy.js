@@ -67,4 +67,93 @@ describe('Register new client negative',()=>{
             expect(response.body.errors.username).deep.eq(["can't be blank"])
         })
     })
+
+    it('Register new client without username and email',()=>{
+        cy.api({
+            method:'POST',
+            url: `${api_server}/users`,
+            failOnStatusCode:false,
+            body: {
+                "user": {
+                    "password": "123",
+                }
+              }
+        }).then((response)=>{
+            expect(response.status).eq(422)
+            expect(response.body.errors.email).deep.eq(["can't be blank"])
+        })
+    })
+
+    it('Register client with existiin email',()=>{
+        const newEmail = faker.internet.email()
+        const newUsername = faker.person.fullName()
+        const random = Math.floor(100000 + Math.random() * 900000)
+        cy.api({
+            method:'POST',
+            url: `${api_server}/users`,
+            body: {
+                "user": {
+                  "email": newEmail,
+                  "password": "123",
+                  "username": newUsername
+                }
+              }
+        }).then((response)=>{
+            expect(response.status).eq(201)
+        }).then(()=>{
+            cy.api({
+                method:'POST',
+                url: `${api_server}/users`,
+                failOnStatusCode:false,
+                body: {
+                    "user": {
+                      "email": newEmail,
+                      "password": "123",
+                      "username": newUsername+random
+                    }
+                  }
+            }).then((response)=>{
+                expect(response.status).eq(422)
+                expect(response.body.errors.email["has already been taken"])
+
+            })
+        })
+    })
+
+    it('Register client with existiin email',()=>{
+        const newEmail = faker.internet.email()
+        const newUsername = faker.person.fullName()
+        const random = Math.floor(100000 + Math.random() * 900000)
+        cy.api({
+            method:'POST',
+            url: `${api_server}/users`,
+            body: {
+                "user": {
+                  "email": newEmail,
+                  "password": "123",
+                  "username": newUsername
+                }
+              }
+        }).then((response)=>{
+            expect(response.status).eq(201)
+        }).then(()=>{
+            cy.api({
+                method:'POST',
+                url: `${api_server}/users`,
+                failOnStatusCode:false,
+                body: {
+                    "user": {
+                      "email": newEmail+random,
+                      "password": "123",
+                      "username": newUsername
+                    }
+                  }
+            }).then((response)=>{
+                expect(response.status).eq(422)
+                expect(response.body.errors.username["has already been taken"])
+
+            })
+        })
+    })
+
 })
