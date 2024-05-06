@@ -1,11 +1,13 @@
 const email = Cypress.env('email')
 const pass = Cypress.env('pass')
+const api_server = Cypress.env('api_server')
 
 describe('Positive scenario', () => {
+
   it('login succses status code, token', () => {
     cy.api({
       method:'POST',
-      url:'https://conduit-api.bondaracademy.com/api/users/login',
+      url:`${api_server}/users/login`,
       body:{
           "user": {
             "email": email,
@@ -24,7 +26,7 @@ describe('Negative scenario',()=>{
   it('invalid email',()=>{
     cy.api({
       method:'POST',
-      url:'https://conduit-api.bondaracademy.com/api/users/login',
+      url:`${api_server}/users/login`,
       failOnStatusCode:false,
       body:{
           "user": {
@@ -41,7 +43,7 @@ describe('Negative scenario',()=>{
   it('Invalid password',()=>{
     cy.api({
       method:'POST',
-      url:'https://conduit-api.bondaracademy.com/api/users/login',
+      url:`${api_server}/users/login`,
       failOnStatusCode:false,
       body:{
           "user": {

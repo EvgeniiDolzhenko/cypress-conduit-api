@@ -6,9 +6,7 @@ module.exports = defineConfig({
   e2e: {
   
     setupNodeEvents(on, config) {
-      config.env.failOnStatusCode = false
       // implement node event listeners here
-      return config;
     },
   },
 });

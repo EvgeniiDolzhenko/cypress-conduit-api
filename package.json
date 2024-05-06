@@ -13,6 +13,7 @@
     "cypress": "^13.8.1"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "cypress-plugin-api": "^2.11.1"
   }
 }
