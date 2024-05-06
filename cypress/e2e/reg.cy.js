@@ -29,3 +29,42 @@ describe('Register new client',()=>{
 
     })
 })
+
+describe('Register new client negative',()=>{
+    const email = faker.internet.email()
+    const username = faker.person.fullName()
+
+    it('Register new client without email',()=>{
+        cy.api({
+            method:'POST',
+            url: `${api_server}/users`,
+            failOnStatusCode:false,
+            body: {
+                "user": {
+                  "password": "123",
+                  "username": username
+                }
+              }
+        }).then((response)=>{
+            expect(response.status).eq(422)
+            expect(response.body.errors.email).deep.eq(["can't be blank"])
+        })
+    })
+
+    it('Register new client without username',()=>{
+        cy.api({
+            method:'POST',
+            url: `${api_server}/users`,
+            failOnStatusCode:false,
+            body: {
+                "user": {
+                    "email": email,
+                    "password": "123",
+                }
+              }
+        }).then((response)=>{
+            expect(response.status).eq(422)
+            expect(response.body.errors.username).deep.eq(["can't be blank"])
+        })
+    })
+})
