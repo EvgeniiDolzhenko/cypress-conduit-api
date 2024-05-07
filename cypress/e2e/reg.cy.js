@@ -3,10 +3,8 @@ import { registration } from '../pages/reg';
 const api_server = Cypress.env('api_server')
 
 describe('Register new client',()=>{
-
     const email = faker.internet.email()
     const username = faker.person.fullName()
-
     it('positive new user',()=>{
         const data = {
             "email": email,
@@ -111,9 +109,7 @@ describe('Register new client negative',()=>{
                     .then((response)=>{
                         expect(response.status).eq(422)
                         expect(response.body.errors.username["has already been taken"])
-
             })
         })
     })
-
 })
