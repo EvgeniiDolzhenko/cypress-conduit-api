@@ -14,5 +14,6 @@ class LoginPage{
             Cypress.env('token',response.body.user.token)
           })
     }
+    
 }
 export const loginPage = new LoginPage()
