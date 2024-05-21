@@ -21,7 +21,7 @@ describe('Create new article, verify , edit, delete E2E API',()=>{
     const title = faker.lorem.words(1);
     const description = faker.lorem.sentences(1)
     const articleInfo = faker.lorem.sentences(3)
-    it('Create new article',()=>{
+    it('Create new article',function(){
         cy.api({
             method: "POST",
             url: `${api_server}/articles`,
@@ -41,7 +41,21 @@ describe('Create new article, verify , edit, delete E2E API',()=>{
         }).then((response)=>{
             expect(response.status).eq(201)
             expect(response.body.article.slug).include(title+'-2980')
+            
         })
 
+    })
+
+    it('verify new post ',function(){
+        cy.api({
+            method:'GET',
+            url:`${api_server}/articles/${title}-2980`,
+            headers:{
+                Authorization: 'Token '+Cypress.env('token')
+            }
+        }).then((response)=>{
+            expect(response.status).eq(200)
+           expect(response.body.article.slug).include(title+'-2980')
+        })
     })
 })
