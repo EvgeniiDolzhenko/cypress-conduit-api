@@ -30,7 +30,6 @@ describe('Create new article, verify , edit, delete E2E API',()=>{
             expect(response.body.article.slug).include(title+'-2980')
         })
     })
-
     it('verify new post status and slug',function(){
         articlePage.getArtucleByTitle(title)
         .then((response)=>{
@@ -45,4 +44,15 @@ describe('Create new article, verify , edit, delete E2E API',()=>{
             expect(response.body.article.tagList).length(3)
         })
     })
+ it('delete created article',function(){
+    articlePage.deleteArticle(title)        
+    .then((response)=>{
+        expect(response.status).eq(204)
+    
+    })
+    articlePage.getArtucleByTitle(title).then((response)=>{
+        expect(response.status).eq(404)
+        expect(response.body.errors.article).deep.eq(['not found'])
+    })
+ })
 })
