@@ -2,11 +2,10 @@
 import './commands'
 import 'cypress-plugin-api'
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
 const email = Cypress.env('email')
 const pass = Cypress.env('pass')
 const url = Cypress.env('api_server')
+
 before('Getting the token',()=>{
     cy.api({
         method:'POST',
