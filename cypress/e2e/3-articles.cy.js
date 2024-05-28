@@ -4,7 +4,7 @@ const api_server = Cypress.env('api_server')
 
 import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
-describe('Cet all articles', () => {
+describe('Get all articles', () => {
   it('verify list of the articles', () => {
     cy.api({
       method: 'GET',
@@ -18,7 +18,7 @@ describe('Cet all articles', () => {
   })
 })
 
-describe('Create new article, verify , edit, delete E2E API', () => {
+describe('Create new article, verify , delete E2E API', () => {
   const tags = ['fashion', 'art', 'music']
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
@@ -44,10 +44,6 @@ describe('Create new article, verify , edit, delete E2E API', () => {
   it('delete created article', function () {
     articlePage.deleteArticle(title).then(response => {
       expect(response.status).eq(204)
-    })
-    articlePage.getArtucleByTitle(title).then(response => {
-      expect(response.status).eq(404)
-      expect(response.body.errors.article).deep.eq(['not found'])
     })
   })
   it('Verify deleted article', function () {
