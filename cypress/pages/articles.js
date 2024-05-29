@@ -41,5 +41,15 @@ class Article {
       },
     })
   }
+
+  getAllArticles(api_server) {
+    return cy.api({
+      method: 'GET',
+      url: `${api_server}/articles?limit=10&offset=0`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+    })
+  }
 }
 export const articlePage = new Article()

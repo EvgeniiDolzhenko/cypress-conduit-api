@@ -6,13 +6,7 @@ import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
 describe('Get all articles', () => {
   it('verify list of the articles', () => {
-    cy.api({
-      method: 'GET',
-      url: `${api_server}/articles?limit=10&offset=0`,
-      headers: {
-        Authorization: 'Token ' + Cypress.env('token'),
-      },
-    }).then(response => {
+    articlePage.getAllArticles(api_server).then(response => {
       expect(response.status).eq(200)
     })
   })
@@ -52,5 +46,13 @@ describe('Create new article, verify , delete E2E API', () => {
       expect(response.body.errors.article).deep.eq(['not found'])
     })
   })
+})
 
+describe('Get random article, edit, verify edited article E2E API', () => {
+  it('Get random article', () => {
+    articlePage.getAllArticles(api_server).then(response => {
+      const randomSlug = Cypress._.random(0, response.body.articles.length - 1)
+      console.log(response.body.articles[randomSlug])
+    })
+  })
 })
