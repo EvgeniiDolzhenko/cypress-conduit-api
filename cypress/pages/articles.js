@@ -51,5 +51,27 @@ class Article {
       },
     })
   }
+
+  editArticle(api_server,title,newTitle){
+    return cy.api({
+      method:'POST',
+      url: `${api_server}/articles/${title}-2980`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+      body:{
+          "title": newTitle,
+          "description": "description",
+          "body": "text",
+          "tagList": [
+              "tag1",
+              "tag2",
+              "tag3"
+          ]
+        }
+      
+    })
+  }
+
 }
 export const articlePage = new Article()
