@@ -52,26 +52,29 @@ class Article {
     })
   }
 
-  editArticle(api_server,title,newTitle){
+  addComment(api_server, title, comment) {
     return cy.api({
-      method:'POST',
-      url: `${api_server}/articles/${title}-2980`,
+      method: 'POST',
+      url: `${api_server}/articles/${title}/comments`,
       headers: {
         Authorization: 'Token ' + Cypress.env('token'),
       },
-      body:{
-          "title": newTitle,
-          "description": "description",
-          "body": "text",
-          "tagList": [
-              "tag1",
-              "tag2",
-              "tag3"
-          ]
-        }
-      
+      body: {
+        comment: {
+          body: `${comment}`,
+        },
+      },
     })
   }
 
+  getAllCommentsFromArticle(api_server, title) {
+    return cy.api({
+      method: 'GET',
+      url: `${api_server}/articles/${title}/comments`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+    })
+  }
 }
 export const articlePage = new Article()

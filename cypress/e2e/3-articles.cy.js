@@ -48,11 +48,18 @@ describe('Create new article, verify , delete E2E API', () => {
   })
 })
 
-describe('Get random article, edit, verify edited article E2E API', () => {
-  it.only('Get random article', () => {
+describe('Get random article, add comment, verify new comment E2E API', () => {
+  const comment = faker.lorem.sentences(1)
+  it('Get random article', () => {
     articlePage.getAllArticles(api_server).then(response => {
       const randomSlug = Cypress._.random(0, response.body.articles.length - 1)
-      console.log(response.body.articles[randomSlug])
+      const getRandomArticle = response.body.articles[randomSlug].slug
+      articlePage.addComment(api_server, getRandomArticle, comment)
+      cy.wrap(response.body.articles[randomSlug].slug).then(randomArticle => {
+        articlePage.getAllCommentsFromArticle(api_server, randomArticle).then(response => {
+          console.log(response.body.comments)
+        })
+      })
     })
   })
 })
