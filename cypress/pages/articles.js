@@ -76,5 +76,16 @@ class Article {
       },
     })
   }
+
+  deleteComment(api_server,title,commentId){
+    return cy.api({
+      method:'DELETE',
+      url:`${api_server}/articles/${title}/comments/${commentId}`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+
+    })
+  }
 }
 export const articlePage = new Article()

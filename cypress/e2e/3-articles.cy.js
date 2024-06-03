@@ -73,6 +73,19 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
 
   it('Delete comment',()=>{
 console.log(commentId,getRandomArticle)
+articlePage.deleteComment(api_server, getRandomArticle, commentId).then((res)=>{
+  expect(res.status).eq(200)
+})
+  })
+
+  it('Verify deleted comment',()=>{
+    articlePage.getAllCommentsFromArticle(api_server, getRandomArticle).then(response => {
+      const ids = []
+      for (let i = 0; i < response.body.comments.length; i++) {
+        ids.push(response.body.comments[i].id)
+      }
+      expect(ids).not.to.include(commentId)
+    })
   })
 
 
