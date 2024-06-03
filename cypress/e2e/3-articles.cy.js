@@ -71,14 +71,13 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
     })
   })
 
-  it('Delete comment',()=>{
-console.log(commentId,getRandomArticle)
-articlePage.deleteComment(api_server, getRandomArticle, commentId).then((res)=>{
-  expect(res.status).eq(200)
-})
+  it('Delete comment', () => {
+    articlePage.deleteComment(api_server, getRandomArticle, commentId).then(res => {
+      expect(res.status).eq(200)
+    })
   })
 
-  it('Verify deleted comment',()=>{
+  it('Verify deleted comment', () => {
     articlePage.getAllCommentsFromArticle(api_server, getRandomArticle).then(response => {
       const ids = []
       for (let i = 0; i < response.body.comments.length; i++) {
@@ -87,6 +86,4 @@ articlePage.deleteComment(api_server, getRandomArticle, commentId).then((res)=>{
       expect(ids).not.to.include(commentId)
     })
   })
-
-
 })

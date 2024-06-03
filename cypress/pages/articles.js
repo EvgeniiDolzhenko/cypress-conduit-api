@@ -77,14 +77,13 @@ class Article {
     })
   }
 
-  deleteComment(api_server,title,commentId){
+  deleteComment(api_server, title, commentId) {
     return cy.api({
-      method:'DELETE',
-      url:`${api_server}/articles/${title}/comments/${commentId}`,
+      method: 'DELETE',
+      url: `${api_server}/articles/${title}/comments/${commentId}`,
       headers: {
         Authorization: 'Token ' + Cypress.env('token'),
       },
-
     })
   }
 }
