@@ -50,16 +50,30 @@ describe('Create new article, verify , delete E2E API', () => {
 
 describe('Get random article, add comment, verify new comment E2E API', () => {
   const comment = faker.lorem.sentences(1)
-  it('Get random article', () => {
+  let commentId
+  let getRandomArticle
+  it('Get random article, add comment, verify comment added', () => {
     articlePage.getAllArticles(api_server).then(response => {
       const randomSlug = Cypress._.random(0, response.body.articles.length - 1)
-      const getRandomArticle = response.body.articles[randomSlug].slug
-      articlePage.addComment(api_server, getRandomArticle, comment)
-      cy.wrap(response.body.articles[randomSlug].slug).then(randomArticle => {
-        articlePage.getAllCommentsFromArticle(api_server, randomArticle).then(response => {
-          console.log(response.body.comments)
+      getRandomArticle = response.body.articles[randomSlug].slug
+      articlePage.addComment(api_server, getRandomArticle, comment).then(res => {
+        commentId = res.body.comment.id
+        cy.wrap(response.body.articles[randomSlug].slug).then(randomArticle => {
+          articlePage.getAllCommentsFromArticle(api_server, randomArticle).then(response => {
+            const ids = []
+            for (let i = 0; i < response.body.comments.length; i++) {
+              ids.push(response.body.comments[i].id)
+            }
+            expect(ids).to.include(commentId)
+          })
         })
       })
     })
   })
+
+  it('Delete comment',()=>{
+console.log(commentId,getRandomArticle)
+  })
+
+
 })
