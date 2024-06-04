@@ -1,4 +1,3 @@
-
 const api_server = Cypress.env('api_server')
 
 import {articlePage} from '../pages/articles'
