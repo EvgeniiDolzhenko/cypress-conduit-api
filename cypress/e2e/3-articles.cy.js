@@ -1,5 +1,4 @@
-const email = Cypress.env('email')
-const pass = Cypress.env('pass')
+
 const api_server = Cypress.env('api_server')
 
 import {articlePage} from '../pages/articles'
