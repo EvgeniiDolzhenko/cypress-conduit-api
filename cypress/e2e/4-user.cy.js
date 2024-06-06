@@ -19,4 +19,27 @@ describe('Update user bio', () => {
       cy.wrap(response.body.user.token).should('eq', Cypress.env('token'))
     })
   })
+
+  it('Update bio verify email ', () => {
+    user.updateUser('', '', bio, '', '').then(response => {
+      cy.wrap(response.body.user.email).should('eq', email)
+    })
+  })
+})
+
+describe('Update username',()=>{
+  const newName = `Eugene${Cypress._.random(0,99999)}`
+  it('Update username and verify status code',()=>{
+    user.updateUser('', newName, '', '', '').then(response => {
+      expect(response.status).eq(200)
+    })
+  })
+
+
+  it('Update username and verify status code',()=>{
+    user.updateUser('', newName, '', '', '').then(response => {
+      cy.wrap(response.body.user.username).should('eq', newName)
+    })
+  })
+
 })
