@@ -27,19 +27,17 @@ describe('Update user bio', () => {
   })
 })
 
-describe('Update username',()=>{
-  const newName = `Eugene${Cypress._.random(0,99999)}`
-  it('Update username and verify status code',()=>{
+describe('Update username', () => {
+  const newName = `Eugene${Cypress._.random(0, 99999)}`
+  it('Update username and verify status code', () => {
     user.updateUser('', newName, '', '', '').then(response => {
       expect(response.status).eq(200)
     })
   })
 
-
-  it('Update username and verify status code',()=>{
+  it('Update username and verify status code', () => {
     user.updateUser('', newName, '', '', '').then(response => {
       cy.wrap(response.body.user.username).should('eq', newName)
     })
   })
-
 })
