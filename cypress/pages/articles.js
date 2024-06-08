@@ -87,7 +87,7 @@ class Article {
     })
   }
 
-  getArticleByTag(api_server,tag){
+  getArticleByTag(api_server, tag) {
     return cy.api({
       method: 'GET',
       failOnStatusCode: false,
