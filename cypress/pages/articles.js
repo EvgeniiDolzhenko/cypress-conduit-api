@@ -86,5 +86,16 @@ class Article {
       },
     })
   }
+
+  getArticleByTag(api_server,tag){
+    return cy.api({
+      method: 'GET',
+      failOnStatusCode: false,
+      url: `${api_server}/articles?tag=${tag}&limit=10&offset=0`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+    })
+  }
 }
 export const articlePage = new Article()
