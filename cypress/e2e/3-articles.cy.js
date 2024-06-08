@@ -111,4 +111,11 @@ describe('Getting article by tag', () => {
       expect(response.status).eq(204)
     })
   })
+
+  it('Verify deleted article', function () {
+    articlePage.getArtucleByTitle(title).then(response => {
+      expect(response.status).eq(404)
+      expect(response.body.errors.article).deep.eq(['not found'])
+    })
+  })
 })
