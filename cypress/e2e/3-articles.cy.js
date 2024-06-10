@@ -22,13 +22,13 @@ describe('Create new article, verify , delete E2E API', () => {
     })
   })
   it('verify new post status and slug', function () {
-    articlePage.getArtucleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(200)
       expect(response.body.article.slug).include(title + '-2980')
     })
   })
   it('verify new post description and taglist lenght', function () {
-    articlePage.getArtucleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title).then(response => {
       expect(response.body.article.description).eq(description)
       expect(response.body.article.tagList).length(3)
     })
@@ -39,7 +39,7 @@ describe('Create new article, verify , delete E2E API', () => {
     })
   })
   it('Verify deleted article', function () {
-    articlePage.getArtucleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
     })
@@ -113,7 +113,7 @@ describe('Getting article by tag', () => {
   })
 
   it('Verify deleted article', function () {
-    articlePage.getArtucleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
     })

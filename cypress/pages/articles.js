@@ -20,7 +20,7 @@ class Article {
     })
   }
 
-  getArtucleByTitle(title) {
+  getArticleByTitle(title) {
     return cy.api({
       method: 'GET',
       failOnStatusCode: false,
