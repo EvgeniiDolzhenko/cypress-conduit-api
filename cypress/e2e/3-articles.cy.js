@@ -1,7 +1,9 @@
-const api_server = Cypress.env('api_server')
-
 import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
+
+const api_server = Cypress.env('api_server')
+expect(api_server,'api_server').to.be.a('string').and.not.be.empty
+
 describe('Get all articles', () => {
   it('verify list of the articles', () => {
     articlePage.getAllArticles(api_server).then(response => {
