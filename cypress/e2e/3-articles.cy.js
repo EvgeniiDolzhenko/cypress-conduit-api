@@ -89,22 +89,23 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
 })
 
 describe('Getting article by tag', () => {
-  const tags = [faker.lorem.words(1)]
+  const tag = [faker.lorem.words(1)]
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
   let articleSlug
   it('Create article with new tag', () => {
-    articlePage.createNewArticle(title, description, articleInfo, tags).then(response => {
+    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
       articleSlug = response.body.article.slug
       expect(response.status).eq(201)
     })
   })
 
   it('verify new article with tag', () => {
-    articlePage.getArticleByTag(api_server, tags).then(response => {
+    articlePage.getArticleByTag(api_server, tag).then(response => {
       expect(response.status).eq(200)
       expect(response.body.articles[0].slug).eq(articleSlug)
+      expect(response.body.articles[0].tagList).deep.eq(tag)
     })
   })
 
