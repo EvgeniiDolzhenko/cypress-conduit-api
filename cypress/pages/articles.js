@@ -98,5 +98,17 @@ class Article {
       },
     })
   }
+
+  favoriteArticle(title) {
+    return cy.api({
+      method: 'POST',
+      failOnStatusCode: false,
+      url: `${api_server}/articles/${title}/favorite`,
+      body: {},
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+    })
+  }
 }
 export const articlePage = new Article()

@@ -2,7 +2,7 @@ import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
 
 const api_server = Cypress.env('api_server')
-expect(api_server,'api_server').to.be.a('string').and.not.be.empty
+expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
 describe('Get all articles', () => {
   it('verify list of the articles', () => {
@@ -17,29 +17,32 @@ describe('Create new article, verify , delete E2E API', () => {
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
+
   it('Create new article', function () {
     articlePage.createNewArticle(title, description, articleInfo, tags).then(response => {
       expect(response.status).eq(201)
       expect(response.body.article.slug).include(title + '-2980')
     })
   })
+
   it('verify new post status and slug', function () {
     articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(200)
       expect(response.body.article.slug).include(title + '-2980')
     })
   })
+
   it('verify new post description and taglist lenght', function () {
     articlePage.getArticleByTitle(title).then(response => {
       expect(response.body.article.description).eq(description)
       expect(response.body.article.tagList).length(3)
     })
   })
+
   it('delete created article', function () {
-    articlePage.deleteArticle(title).then(response => {
-      expect(response.status).eq(204)
-    })
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
+
   it('Verify deleted article', function () {
     articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(404)
@@ -110,9 +113,7 @@ describe('Getting article by tag', () => {
   })
 
   it('delete created article', function () {
-    articlePage.deleteArticle(title).then(response => {
-      expect(response.status).eq(204)
-    })
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 
   it('Verify deleted article', function () {
@@ -120,5 +121,34 @@ describe('Getting article by tag', () => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
     })
+  })
+})
+
+describe('Favorite article', () => {
+  const tag = [faker.lorem.words(1)]
+  const title = faker.lorem.words(1)
+  const description = faker.lorem.sentences(1)
+  const articleInfo = faker.lorem.sentences(3)
+  let articleSlug
+
+  it('Create new article', () => {
+    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
+      articleSlug = response.body.article.slug
+      cy.wrap(response.status).should('eq', 201)
+      expect(response.body.article.favoritesCount).eq(0)
+      expect(response.body.article.favorited).eq(false)
+    })
+  })
+
+  it('Verify article is favorite', () => {
+    articlePage.favoriteArticle(articleSlug).then(response => {
+      expect(response.body.article.favoritesCount).eq(1)
+      expect(response.body.article.favorited).eq(true)
+      expect(response.body.article.favoritedBy[0].id).eq(2980)
+    })
+  })
+
+  it('delete created article', function () {
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
