@@ -1,3 +1,5 @@
+///<reference types="cypress-plugin-api" />
+
 class User {
   updateUser(image, username, bio, email, password) {
     return cy.api({

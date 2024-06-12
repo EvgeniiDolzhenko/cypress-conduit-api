@@ -1,3 +1,4 @@
+///<reference types="cypress-plugin-api" />
 const api_server = Cypress.env('api_server')
 
 class Article {

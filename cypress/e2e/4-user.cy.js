@@ -7,20 +7,21 @@ import {faker} from '@faker-js/faker'
 
 describe('Update user bio', () => {
   const bio = faker.lorem.sentences(1)
-  it('Update bio status, id ', () => {
+  it('Update bio. Verify status, id', () => {
     user.updateUser('', '', bio, '', '').then(response => {
       expect(response.status).eq(200)
       cy.wrap(response.body.user.id).should('eq', 2980)
     })
   })
 
-  it('Update bio token ', () => {
+  it('Update bio. Verify token', () => {
     user.updateUser('', '', bio, '', '').then(response => {
-      cy.wrap(response.body.user.token).should('eq', Cypress.env('token'))
+      cy.wrap(response.body.user.token).should('be.a', 'string')
+      expect(response.body.user.token).eq(Cypress.env('token'))
     })
   })
 
-  it('Update bio verify email ', () => {
+  it('Update bio. Verify email ', () => {
     user.updateUser('', '', bio, '', '').then(response => {
       cy.wrap(response.body.user.email).should('eq', email)
     })

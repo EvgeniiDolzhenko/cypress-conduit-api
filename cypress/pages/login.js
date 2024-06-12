@@ -1,3 +1,5 @@
+///<reference types="cypress-plugin-api" />
+
 class LoginPage {
   login(url, email, pass) {
     return cy
