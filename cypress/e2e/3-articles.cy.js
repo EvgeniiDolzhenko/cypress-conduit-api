@@ -12,7 +12,7 @@ describe('Get all articles', () => {
   })
 })
 
-describe.only('Create new article, verify , delete E2E API', () => {
+describe('Create new article, verify , delete E2E API', () => {
   const tags = ['fashion', 'art', 'music']
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
@@ -46,7 +46,6 @@ describe.only('Create new article, verify , delete E2E API', () => {
       expect(response.body.errors.article).deep.eq(['not found'])
     })
   })
-
 })
 
 describe('Get random article, add comment, verify new comment E2E API', () => {
@@ -59,7 +58,7 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
       articlePage
         .addComment(api_server, getRandomArticle, comment)
         .its('body.comment.id')
-        .should('be.a','number')
+        .should('be.a', 'number')
         .as('commentId')
         .then(commentId => {
           articlePage
