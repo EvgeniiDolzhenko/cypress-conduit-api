@@ -69,6 +69,7 @@ class Article {
   }
 
   getAllCommentsFromArticle(api_server, title) {
+    expect(title).to.be.a('string')
     return cy.api({
       method: 'GET',
       url: `${api_server}/articles/${title}/comments`,
