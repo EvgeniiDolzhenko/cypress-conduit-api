@@ -3,6 +3,9 @@ import {loginPage} from '../pages/login'
 const email = Cypress.env('email')
 const pass = Cypress.env('pass')
 const api_server = Cypress.env('api_server')
+expect(email, 'email').to.be.a('string').and.not.be.empty
+expect(pass, 'pass').to.be.a('string').and.not.be.empty
+expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
 describe('Positive scenario', () => {
   it('login succses status code, token', () => {

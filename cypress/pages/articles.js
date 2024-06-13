@@ -1,3 +1,4 @@
+///<reference types="cypress-plugin-api" />
 const api_server = Cypress.env('api_server')
 
 class Article {
@@ -68,6 +69,7 @@ class Article {
   }
 
   getAllCommentsFromArticle(api_server, title) {
+    expect(title).to.be.a('string')
     return cy.api({
       method: 'GET',
       url: `${api_server}/articles/${title}/comments`,
@@ -92,6 +94,18 @@ class Article {
       method: 'GET',
       failOnStatusCode: false,
       url: `${api_server}/articles?tag=${tag}&limit=10&offset=0`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+    })
+  }
+
+  favoriteArticle(title) {
+    return cy.api({
+      method: 'POST',
+      failOnStatusCode: false,
+      url: `${api_server}/articles/${title}/favorite`,
+      body: {},
       headers: {
         Authorization: 'Token ' + Cypress.env('token'),
       },
