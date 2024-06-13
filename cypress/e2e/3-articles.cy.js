@@ -12,13 +12,13 @@ describe('Get all articles', () => {
   })
 })
 
-describe('Create new article, verify , delete E2E API', () => {
+describe.only('Create new article, verify , delete E2E API', () => {
   const tags = ['fashion', 'art', 'music']
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
-  it('Create new article', function () {
+  before('Create new article', function () {
     articlePage.createNewArticle(title, description, articleInfo, tags).then(response => {
       expect(response.status).eq(201)
       expect(response.body.article.slug).include(title + '-2980')
@@ -41,14 +41,12 @@ describe('Create new article, verify , delete E2E API', () => {
 
   it('delete created article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
-  })
-
-  it('Verify deleted article', function () {
     articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
     })
   })
+
 })
 
 describe('Get random article, add comment, verify new comment E2E API', () => {
@@ -61,7 +59,7 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
       articlePage
         .addComment(api_server, getRandomArticle, comment)
         .its('body.comment.id')
-        .should('be.a', 'number')
+        .should('be.a','number')
         .as('commentId')
         .then(commentId => {
           articlePage
