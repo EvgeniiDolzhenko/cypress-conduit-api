@@ -100,27 +100,21 @@ describe('Getting article by tag', () => {
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
-  let articleSlug
-  it('Create article with new tag', () => {
+
+  before('Create article with new tag', () => {
     articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
-      articleSlug = response.body.article.slug
+      cy.wrap(response.body.article.slug).as('articleSlug')
       expect(response.status).eq(201)
     })
   })
 
-  it('verify new article with tag', () => {
+  it('verify new article with tag', function () {
     articlePage.getArticleByTag(api_server, tag).then(response => {
       expect(response.status).eq(200)
-      expect(response.body.articles[0].slug).eq(articleSlug)
+      expect(response.body.articles[0].slug).eq(this.articleSlug)
       expect(response.body.articles[0].tagList).deep.eq(tag)
     })
-  })
-
-  it('delete created article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
-  })
-
-  it('Verify deleted article', function () {
     articlePage.getArticleByTitle(title).then(response => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
@@ -133,26 +127,22 @@ describe('Favorite article', () => {
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
-  let articleSlug
 
-  it('Create new article', () => {
+  before('Create new article', () => {
     articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
-      articleSlug = response.body.article.slug
+      cy.wrap(response.body.article.slug).as('articleSlug')
       cy.wrap(response.status).should('eq', 201)
       expect(response.body.article.favoritesCount).eq(0)
       expect(response.body.article.favorited).eq(false)
     })
   })
 
-  it('Verify article is favorite', () => {
-    articlePage.favoriteArticle(articleSlug).then(response => {
+  it('Verify article is favorite', function () {
+    articlePage.favoriteArticle(this.articleSlug).then(response => {
       expect(response.body.article.favoritesCount).eq(1)
       expect(response.body.article.favorited).eq(true)
       expect(response.body.article.favoritedBy[0].id).eq(2980)
     })
-  })
-
-  it('delete created article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
