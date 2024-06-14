@@ -7,38 +7,27 @@ import {faker} from '@faker-js/faker'
 
 describe('Update user bio', () => {
   const bio = faker.lorem.sentences(1)
-  it('Update bio. Verify status, id', () => {
-    user.updateUser('', '', bio, '', '').then(response => {
-      expect(response.status).eq(200)
-      cy.wrap(response.body.user.id).should('eq', 2980)
-    })
-  })
-
-  it('Update bio. Verify token', () => {
-    user.updateUser('', '', bio, '', '').then(response => {
-      cy.wrap(response.body.user.token).should('be.a', 'string')
-      expect(response.body.user.token).eq(Cypress.env('token'))
-    })
-  })
-
-  it('Update bio. Verify email ', () => {
-    user.updateUser('', '', bio, '', '').then(response => {
-      cy.wrap(response.body.user.email).should('eq', email)
-    })
+  it('Update bio. Verify status, id, token,email', () => {
+    user
+      .updateUser({bio})
+      .should('deep.include', {status: 200})
+      .its('body.user')
+      .should('deep.include', {
+        id: 2980,
+        token: Cypress.env('token'),
+        email,
+        bio,
+      })
   })
 })
 
 describe('Update username', () => {
   const newName = `Eugene${Cypress._.random(0, 99999)}`
-  it('Update username and verify status code', () => {
-    user.updateUser('', newName, '', '', '').then(response => {
-      expect(response.status).eq(200)
-    })
-  })
-
-  it('Update username and verify status code', () => {
-    user.updateUser('', newName, '', '', '').then(response => {
-      cy.wrap(response.body.user.username).should('eq', newName)
-    })
+  it('Update username, verify status code, new name', () => {
+    user
+      .updateUser({username: newName})
+      .should('deep.include', {status: 200})
+      .its('body.user')
+      .should('have.property', 'username', newName)
   })
 })
