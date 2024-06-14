@@ -6,7 +6,7 @@ expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
 describe('Get all articles', () => {
   it('verify list of the articles', () => {
-    articlePage.getAllArticles(api_server,'loggedIn').then(response => {
+    articlePage.getAllArticles(api_server, 'loggedIn').then(response => {
       expect(response.status).eq(200)
     })
   })
@@ -52,7 +52,7 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
   const comment = faker.lorem.sentences(1)
   let getRandomArticle
   beforeEach('Get random article, add comment, verify comment added', () => {
-    articlePage.getAllArticles(api_server,'loggedIn').then(response => {
+    articlePage.getAllArticles(api_server, 'loggedIn').then(response => {
       const randomSlug = Cypress._.random(0, response.body.articles.length - 1)
       getRandomArticle = response.body.articles[randomSlug].slug
       articlePage

@@ -2,7 +2,7 @@ const email = Cypress.env('email')
 const pass = Cypress.env('pass')
 const api_server = Cypress.env('api_server')
 
-import { articlePage } from '../pages/articles'
+import {articlePage} from '../pages/articles'
 import {user} from '../pages/user'
 
 import {faker} from '@faker-js/faker'
@@ -50,27 +50,31 @@ describe('Create a new post ->Verify that the post appears in the feed -> Verify
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
-  beforeEach(' Verify that the post is not visible to a logged-out user.', function(){
-    articlePage.createNewArticle(title, description, articleInfo, tags)
-    .should('deep.include', {status: 201})
-    .its('body.article.slug')
-    .then((newSlug)=>{
-      cy.wrap(newSlug).as('newSlug')
-      articlePage.getAllArticles(api_server,'loggedIn')
-      .its('body.articles').then((articles)=>{
-        const slugs = articles.map(article => article.slug);
-        expect(slugs).to.include(newSlug);
-
+  beforeEach(' Verify that the post is not visible to a logged-out user.', function () {
+    articlePage
+      .createNewArticle(title, description, articleInfo, tags)
+      .should('deep.include', {status: 201})
+      .its('body.article.slug')
+      .then(newSlug => {
+        cy.wrap(newSlug).as('newSlug')
+        articlePage
+          .getAllArticles(api_server, 'loggedIn')
+          .its('body.articles')
+          .then(articles => {
+            const slugs = articles.map(article => article.slug)
+            expect(slugs).to.include(newSlug)
+          })
       })
-    })
   })
 
-  it(' Verify that the post is not visible to a logged-out user.', function(){
-    articlePage.getAllArticles(api_server,'loggedOut')
-    .its('body.articles').then((articles)=>{
-      const slugs = articles.map(article => article.slug);
-      expect(slugs).not.include(this.newSlug);
-    })
+  it(' Verify that the post is not visible to a logged-out user.', function () {
+    articlePage
+      .getAllArticles(api_server, 'loggedOut')
+      .its('body.articles')
+      .then(articles => {
+        const slugs = articles.map(article => article.slug)
+        expect(slugs).not.include(this.newSlug)
+      })
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
