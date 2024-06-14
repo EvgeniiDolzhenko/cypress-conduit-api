@@ -43,15 +43,26 @@ class Article {
     })
   }
 
-  getAllArticles(api_server) {
-    return cy.api({
-      method: 'GET',
-      url: `${api_server}/articles?limit=10&offset=0`,
-      headers: {
-        Authorization: 'Token ' + Cypress.env('token'),
-      },
-    })
+  getAllArticles(api_server,permission) {
+    if(permission === 'loggedIn'){
+      return cy.api({
+        method: 'GET',
+        url: `${api_server}/articles?limit=10&offset=0`,
+        headers: {
+          Authorization: 'Token ' + Cypress.env('token'),
+        },
+      })
+    } else{
+      return cy.api({
+        method: 'GET',
+        url: `${api_server}/articles?limit=10&offset=0`,
+      })
+    }
   }
+
+  // getAllArticlesWithourToken(api_server){
+
+  // }
 
   addComment(api_server, title, comment) {
     return cy.api({
