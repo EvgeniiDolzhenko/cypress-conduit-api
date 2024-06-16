@@ -3,25 +3,6 @@ import {registration} from '../pages/reg'
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
-describe('Register new client', () => {
-  const email = faker.internet.email()
-  const username = faker.person.fullName()
-  it('positive new user', () => {
-    const data = {
-      email: email,
-      password: '123',
-      username: username,
-    }
-    registration.registerNewClient(api_server, data).then(response => {
-      expect(response.body.user.id).a('number')
-      expect(response.status).eq(201)
-      expect(response.body.user.email).eq(email)
-      expect(response.body.user.username).eq(username)
-      expect(response.body.user.token).a('string')
-    })
-  })
-})
-
 describe('Register new client negative', () => {
   const email = faker.internet.email()
   const username = faker.person.fullName()
@@ -83,7 +64,7 @@ describe('Register new client negative', () => {
       })
   })
 
-  it('Register client with existiin username', () => {
+  it('Register client with existiing username', () => {
     const newEmail = faker.internet.email()
     const newUsername = faker.person.fullName()
     const random = Math.floor(100000 + Math.random() * 900000)

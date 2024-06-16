@@ -156,11 +156,37 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
   })
 
   it('Verify Post is Unavailable for Logged-Out User', function () {
-    articlePage.getArticleByTitle(this.articleSlug, 'loggedIn')
-    .should('deep.include', {status: 404})
-    .then(response => {
-      expect(response.body.errors.article).deep.eq(['not found'])
+    articlePage
+      .getArticleByTitle(this.articleSlug, 'loggedIn')
+      .should('deep.include', {status: 404})
+      .then(response => {
+        expect(response.body.errors.article).deep.eq(['not found'])
+      })
+  })
+
+  it('delete article', function () {
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
+  })
+})
+
+describe('Create article with existing title name', () => {
+  const tag = [faker.lorem.words(1)]
+  const title = faker.lorem.words(1)
+  const description = faker.lorem.sentences(1)
+  const articleInfo = faker.lorem.sentences(3)
+  before('Create new article', function () {
+    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
+      cy.wrap(response.body.article.slug).as('articleSlug')
     })
+  })
+
+  it('Create article with existing name', () => {
+    articlePage
+      .createNewArticle(title, description, articleInfo, tag)
+      .should('deep.include', {status: 422})
+      .then(response => {
+        expect(response.body.errors.title).deep.eq(['must be unique'])
+      })
   })
 
   it('delete article', function () {
