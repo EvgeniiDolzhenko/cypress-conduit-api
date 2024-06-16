@@ -14,7 +14,7 @@ describe('Get all articles', () => {
 
 describe('Create new article, verify , delete E2E API', () => {
   const tags = ['fashion', 'art', 'music']
-  const title = faker.lorem.words(1)
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
@@ -94,7 +94,7 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
 
 describe('Getting article by tag', () => {
   const tag = [faker.lorem.words(1)]
-  const title = faker.lorem.words(1)
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
@@ -121,7 +121,7 @@ describe('Getting article by tag', () => {
 
 describe('Favorite article', () => {
   const tag = [faker.lorem.words(1)]
-  const title = faker.lorem.words(1)
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
@@ -146,7 +146,7 @@ describe('Favorite article', () => {
 
 describe('Create Article and Verify Post is Unavailable for Logged-Out User', () => {
   const tag = [faker.lorem.words(1)]
-  const title = faker.lorem.words(1)
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
   before('Create new article', function () {
@@ -171,7 +171,7 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
 
 describe('Create article with existing title name', () => {
   const tag = [faker.lorem.words(1)]
-  const title = faker.lorem.words(1)
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
   before('Create new article', function () {
