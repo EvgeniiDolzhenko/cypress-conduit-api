@@ -21,15 +21,23 @@ class Article {
     })
   }
 
-  getArticleByTitle(title) {
-    return cy.api({
-      method: 'GET',
-      failOnStatusCode: false,
-      url: `${api_server}/articles/${title}-2980`,
-      headers: {
-        Authorization: 'Token ' + Cypress.env('token'),
-      },
-    })
+  getArticleByTitle(title, permission) {
+    if (permission === 'loggedIn') {
+      return cy.api({
+        method: 'GET',
+        failOnStatusCode: false,
+        url: `${api_server}/articles/${title}-2980`,
+        headers: {
+          Authorization: 'Token ' + Cypress.env('token'),
+        },
+      })
+    } else {
+      return cy.api({
+        method: 'GET',
+        failOnStatusCode: false,
+        url: `${api_server}/articles/${title}-2980`,
+      })
+    }
   }
 
   deleteArticle(title) {

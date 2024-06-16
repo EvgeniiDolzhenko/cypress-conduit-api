@@ -26,14 +26,14 @@ describe('Create new article, verify , delete E2E API', () => {
   })
 
   it('verify new post status and slug', function () {
-    articlePage.getArticleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.status).eq(200)
       expect(response.body.article.slug).include(title + '-2980')
     })
   })
 
   it('verify new post description and taglist lenght', function () {
-    articlePage.getArticleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.body.article.description).eq(description)
       expect(response.body.article.tagList).length(3)
     })
@@ -41,7 +41,7 @@ describe('Create new article, verify , delete E2E API', () => {
 
   it('delete created article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
-    articlePage.getArticleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
     })
@@ -112,7 +112,7 @@ describe('Getting article by tag', () => {
       expect(response.body.articles[0].tagList).deep.eq(tag)
     })
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
-    articlePage.getArticleByTitle(title).then(response => {
+    articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.status).eq(404)
       expect(response.body.errors.article).deep.eq(['not found'])
     })
@@ -140,6 +140,28 @@ describe('Favorite article', () => {
       expect(response.body.article.favorited).eq(true)
       expect(response.body.article.favoritedBy[0].id).eq(2980)
     })
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
+  })
+})
+
+describe('Create Article and Verify Post is Unavailable for Logged-Out User', () => {
+  const tag = [faker.lorem.words(1)]
+  const title = faker.lorem.words(1)
+  const description = faker.lorem.sentences(1)
+  const articleInfo = faker.lorem.sentences(3)
+  before('Create new article', function () {
+    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
+      cy.wrap(response.body.article.slug).as('articleSlug')
+    })
+  })
+
+  it('Verify Post is Unavailable for Logged-Out User', function () {
+    articlePage.getArticleByTitle(this.articleSlug, 'loggedIn').then(response => {
+      expect(response.body.errors.article).deep.eq(['not found'])
+    })
+  })
+
+  it.only('delete article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })

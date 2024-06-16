@@ -50,7 +50,7 @@ describe('Create a new post ->Verify that the post appears in the feed -> Verify
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
-  beforeEach(' Verify that the post is not visible to a logged-out user.', function () {
+  before('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tags)
       .should('deep.include', {status: 201})
