@@ -156,12 +156,14 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
   })
 
   it('Verify Post is Unavailable for Logged-Out User', function () {
-    articlePage.getArticleByTitle(this.articleSlug, 'loggedIn').then(response => {
+    articlePage.getArticleByTitle(this.articleSlug, 'loggedIn')
+    .should('deep.include', {status: 404})
+    .then(response => {
       expect(response.body.errors.article).deep.eq(['not found'])
     })
   })
 
-  it.only('delete article', function () {
+  it('delete article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
