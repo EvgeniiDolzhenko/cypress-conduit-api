@@ -5,7 +5,7 @@ const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
 describe('Get all articles', () => {
-  it('verify list of the articles', () => {
+  it('Verify list of the articles', () => {
     articlePage.getAllArticles(api_server, 'loggedIn').then(response => {
       expect(response.status).eq(200)
     })
@@ -25,21 +25,21 @@ describe('Create new article, verify , delete E2E API', () => {
     })
   })
 
-  it('verify new post status and slug', function () {
+  it('Verify new post status and slug', function () {
     articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.status).eq(200)
       expect(response.body.article.slug).include(title + '-2980')
     })
   })
 
-  it('verify new post description and taglist lenght', function () {
+  it('Verify new post description and taglist lenght', function () {
     articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.body.article.description).eq(description)
       expect(response.body.article.tagList).length(3)
     })
   })
 
-  it('delete created article', function () {
+  it('Delete created article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
     articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.status).eq(404)
@@ -105,7 +105,7 @@ describe('Getting article by tag', () => {
     })
   })
 
-  it('verify new article with tag', function () {
+  it('Verify new article with tag', function () {
     articlePage.getArticleByTag(api_server, tag).then(response => {
       expect(response.status).eq(200)
       expect(response.body.articles[0].slug).eq(this.articleSlug)
@@ -150,9 +150,12 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
   before('Create new article', function () {
-    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
-      cy.wrap(response.body.article.slug).as('articleSlug')
-    })
+    articlePage
+      .createNewArticle(title, description, articleInfo, tag)
+      .should('deep.include', {status: 201})
+      .then(response => {
+        cy.wrap(response.body.article.slug).as('articleSlug')
+      })
   })
 
   it('Verify Post is Unavailable for Logged-Out User', function () {
@@ -164,7 +167,7 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
       })
   })
 
-  it('delete article', function () {
+  it('Delete article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
@@ -175,12 +178,15 @@ describe('Create article with existing title name', () => {
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
   before('Create new article', function () {
-    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
-      cy.wrap(response.body.article.slug).as('articleSlug')
-    })
+    articlePage
+      .createNewArticle(title, description, articleInfo, tag)
+      .should('deep.include', {status: 201})
+      .then(response => {
+        cy.wrap(response.body.article.slug).as('articleSlug')
+      })
   })
 
-  it('Create article with existing name', () => {
+  it('Create article with existing name', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tag)
       .should('deep.include', {status: 422})
@@ -189,7 +195,7 @@ describe('Create article with existing title name', () => {
       })
   })
 
-  it('delete article', function () {
+  it('Delete article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })

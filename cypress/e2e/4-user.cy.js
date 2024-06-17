@@ -44,7 +44,7 @@ describe('Update image', () => {
   })
 })
 
-describe('Create a new post ->Verify that the post appears in the feed -> Verify that the post is not visible to a logged-out user. ', () => {
+describe('Create a new post ->Verify the post appears in the feed -> Verify the post is not visible to a logged-out user. ', () => {
   const tags = ['fashion', 'art', 'music']
   const title = faker.lorem.words(1)
   const description = faker.lorem.sentences(1)
@@ -67,7 +67,7 @@ describe('Create a new post ->Verify that the post appears in the feed -> Verify
       })
   })
 
-  it(' Verify that the post is not visible to a logged-out user.', function () {
+  it(' Verify the post is not visible to a logged-out user.', function () {
     articlePage
       .getAllArticles(api_server, 'loggedOut')
       .its('body.articles')
