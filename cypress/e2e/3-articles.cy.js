@@ -181,9 +181,6 @@ describe('Create article with existing title name', () => {
     articlePage
       .createNewArticle(title, description, articleInfo, tag)
       .should('deep.include', {status: 201})
-      .then(response => {
-        cy.wrap(response.body.article.slug).as('articleSlug')
-      })
   })
 
   it('Create article with existing name', function () {
@@ -194,7 +191,7 @@ describe('Create article with existing title name', () => {
         expect(response.body.errors.title).deep.eq(['must be unique'])
       })
   })
-
+ 
   it('Delete article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
