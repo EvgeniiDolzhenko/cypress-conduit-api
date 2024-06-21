@@ -1,4 +1,4 @@
-🚀 Excited to share my latest project on GitHub: an API automation test suite using Cypress and API plugin!
+🚀 API automation test suite using Cypress and API plugin!
 
 🔹 Page Object Model (POM)
 
@@ -23,9 +23,11 @@ Instalation :
 2. npm install cypress --save-dev
 3. npx cypress open or you can use commands in package.json file :
 
- {...
- 
     "cy:open": "cypress open",
     "cy:run": "cypress run --browser chrome",
-    
-...}
+
+Feel free to use my creaditional in `cypress.env.json`
+Testing site : https://conduit.bondaracademy.com/
+
+Video by Gleb Bahmutov about refactoring this test suite: 
+https://www.youtube.com/watch?v=zGO3LNx-agk
