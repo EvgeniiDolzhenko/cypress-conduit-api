@@ -191,7 +191,7 @@ describe('Create article with existing title name', () => {
         expect(response.body.errors.title).deep.eq(['must be unique'])
       })
   })
- 
+
   it('Delete article', function () {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })

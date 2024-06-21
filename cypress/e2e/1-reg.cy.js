@@ -1,6 +1,9 @@
 import {faker} from '@faker-js/faker'
 import {registration} from '../pages/reg'
+import {loginPage} from '../pages/login'
 const api_server = Cypress.env('api_server')
+const existingEmail = Cypress.env('email')
+const existingPass = Cypress.env('pass')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
 describe('Register new client negative', () => {
@@ -40,51 +43,30 @@ describe('Register new client negative', () => {
   })
 
   it('Register client with existiing email', () => {
-    const newEmail = faker.internet.email()
     const newUsername = faker.person.fullName()
-    const random = Cypress._.random(1000, 99999)
     const data = {
-      email: newEmail,
+      email: Cypress.env('email'),
       password: '123',
       username: newUsername,
     }
-    const dataRandomName = {
-      email: newEmail,
-      password: '123',
-      username: newUsername + random,
-    }
-    registration
-      .registerNewClient(api_server, data)
-      .should('have.property', 'status', 201)
-      .then(() => {
-        registration.registerNewClient(api_server, dataRandomName).then(response => {
-          expect(response.status).eq(422)
-          expect(response.body.errors.email['has already been taken'])
-        })
-      })
+    registration.registerNewClient(api_server, data).then(response => {
+      expect(response.status).eq(422)
+      expect(response.body.errors.email['has already been taken'])
+    })
   })
 
   it('Register client with existiing username', () => {
     const newEmail = faker.internet.email()
-    const newUsername = faker.person.fullName()
-    const random = Math.floor(100000 + Math.random() * 900000)
-    const data = {
-      email: newEmail,
-      password: '123',
-      username: newUsername,
-    }
-    const dataRandomMail = {
-      email: newEmail + random,
-      password: '123',
-      username: newUsername,
-    }
-    registration
-      .registerNewClient(api_server, data)
-      .then(response => {
-        expect(response.status).eq(201)
-      })
-      .then(() => {
-        registration.registerNewClient(api_server, dataRandomMail).then(response => {
+    loginPage
+      .login(api_server, existingEmail, existingPass)
+      .its('body.user.username')
+      .then(username => {
+        const data = {
+          email: newEmail,
+          password: '123',
+          username: username,
+        }
+        registration.registerNewClient(api_server, data).then(response => {
           expect(response.status).eq(422)
           expect(response.body.errors.username['has already been taken'])
         })
