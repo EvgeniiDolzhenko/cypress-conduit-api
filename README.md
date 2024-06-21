@@ -1,4 +1,5 @@
 🚀 Excited to share my latest project on GitHub: an API automation test suite using Cypress and API plugin!
+
 🔹 Page Object Model (POM)
 
 🔹 Diverse scenarios with both negative and positive assertions
