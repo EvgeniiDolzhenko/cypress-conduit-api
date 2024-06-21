@@ -23,8 +23,8 @@ Instalation :
 2. npm install cypress --save-dev
 3. npx cypress open or you can use commands in package.json file :
 
-    "cy:open": "cypress open",
-    "cy:run": "cypress run --browser chrome",
+    >"cy:open": "cypress open",
+    >"cy:run": "cypress run --browser chrome",
 
 Feel free to use my creaditional in `cypress.env.json`
 Testing site : https://conduit.bondaracademy.com/
