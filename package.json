@@ -6,14 +6,15 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --browser chrome",
-    "lint":"prettier cypress/ --check",
+    "lint": "prettier cypress/ --check",
     "format": "prettier cypress/ --write --list-different"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.8.1"
+    "cypress": "^13.8.1",
+    "cypress-split": "^1.24.0"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",

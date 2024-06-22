@@ -1,0 +1,49 @@
+{
+  "name": "require-and-forget",
+  "description": "Require Node module and immediately remove it from module cache to force loading again next time",
+  "version": "1.0.1",
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "bugs": "https://github.com/bahmutov/require-and-forget/issues",
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "src/*.js",
+    "!src/*-spec.js"
+  ],
+  "homepage": "https://github.com/bahmutov/require-and-forget#readme",
+  "keywords": [
+    "cache",
+    "load",
+    "loading",
+    "node",
+    "npm",
+    "purge",
+    "require",
+    "util",
+    "utility"
+  ],
+  "license": "MIT",
+  "main": "src/",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bahmutov/require-and-forget.git"
+  },
+  "scripts": {
+    "test": "npm run unit",
+    "unit": "mocha test/*spec.js",
+    "semantic-release": "semantic-release",
+    "deps": "npm audit --report --omit dev"
+  },
+  "devDependencies": {
+    "mocha": "10.2.0",
+    "prettier": "2.8.4",
+    "semantic-release": "^20.1.1"
+  },
+  "dependencies": {
+    "debug": "4.3.4"
+  }
+}

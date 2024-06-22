@@ -46,7 +46,7 @@ describe('Update image', () => {
 
 describe('Create a new post ->Verify the post appears in the feed -> Verify the post is not visible to a logged-out user. ', () => {
   const tags = ['fashion', 'art', 'music']
-  const title = faker.lorem.words(1)
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
@@ -55,26 +55,36 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
       .createNewArticle(title, description, articleInfo, tags)
       .should('deep.include', {status: 201})
       .its('body.article.slug')
-      .then(newSlug => {
-        cy.wrap(newSlug).as('newSlug')
+      .then(newArticle => {
+        cy.wrap(newArticle).as('newArticle')
         articlePage
           .getAllArticles(api_server, 'loggedIn')
           .its('body.articles')
           .then(articles => {
             const slugs = articles.map(article => article.slug)
-            expect(slugs).to.include(newSlug)
+            expect(slugs).to.include(newArticle)
           })
       })
   })
 
-  it(' Verify the post is not visible to a logged-out user.', function () {
+  it(' Verify the post does not exist in the all articles for a logged-out user.', function () {
     articlePage
       .getAllArticles(api_server, 'loggedOut')
       .its('body.articles')
       .then(articles => {
         const slugs = articles.map(article => article.slug)
-        expect(slugs).not.include(this.newSlug)
+        expect(slugs).not.include(this.newArticle)
       })
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
+  })
+
+  it('Verify the post is visible for getting article by title for a logged-out user.', function () {
+    articlePage
+      .getArticleByTitle(title, 'loggedOut')
+      .should('deep.include', {status: 200})
+      .its('body.article.slug')
+      .should('eq', this.newArticle)
+
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
