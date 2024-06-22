@@ -50,7 +50,7 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
-  before('Create new article', function () {
+  beforeEach('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tags)
       .should('deep.include', {status: 201})
@@ -67,7 +67,7 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
       })
   })
 
-  it(' Verify the post does not exist in the all articles for a logged-out user.', function () {
+  it(' Verify the post does not exist for a logged-out user.', function () {
     articlePage
       .getAllArticles(api_server, 'loggedOut')
       .its('body.articles')
@@ -84,7 +84,6 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
       .should('deep.include', {status: 200})
       .its('body.article.slug')
       .should('eq', this.newArticle)
-
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
