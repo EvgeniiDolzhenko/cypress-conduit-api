@@ -78,7 +78,7 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 
-  it('Verify the post is visible for getting article by title for a logged-out user.', function () {
+  it('Verify that the post is visible when retrieving the article by title for a logged-out user.', function () {
     articlePage
       .getArticleByTitle(title, 'loggedOut')
       .should('deep.include', {status: 200})
