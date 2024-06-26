@@ -87,3 +87,36 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
+
+describe('Verify user posts amount',()=>{
+  const tags = ['fashion', 'art', 'music']
+  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
+  const description = faker.lorem.sentences(1)
+  const articleInfo = faker.lorem.sentences(3)
+  before('Get username, get all user articles', function(){
+    user.getUserInfo()
+    .its('body.user.username')
+    .then((username)=>{
+      cy.wrap(username).as('username')
+      user.getUserArticles(username)
+      .its('body.articlesCount')
+      .then((articlesCount)=>{
+        cy.wrap(articlesCount).as('articlesCount')
+      })
+    })
+
+  })
+
+  it('Creat new article and verify articlesCount has been changed',function(){
+    articlePage.createNewArticle(title, description, articleInfo, tags)
+    .should('deep.include', {status: 201})
+    user.getUserArticles(this.username)
+    .its('body.articlesCount')
+    .then((newAmount)=>{
+      expect(newAmount).not.eq(this.articlesCount)
+      expect(newAmount).eq(this.articlesCount+1)
+    })
+    articlePage.deleteArticle(title).should('have.property', 'status', 204)
+  })
+
+})
