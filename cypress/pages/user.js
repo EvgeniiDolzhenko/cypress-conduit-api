@@ -14,7 +14,7 @@ class User {
     })
   }
 
-  getUserInfo(){
+  getUserInfo() {
     return cy.api({
       method: 'GET',
       url: `${api_server}/user`,
@@ -24,7 +24,7 @@ class User {
     })
   }
 
-  getUserArticles(username){
+  getUserArticles(username) {
     return cy.api({
       method: 'GET',
       url: `${api_server}/articles?author=${username}&limit=10&offset=0`,
