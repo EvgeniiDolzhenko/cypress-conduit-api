@@ -69,7 +69,7 @@ class Article {
   }
 
   addComment(api_server, title, comment) {
-    return cy.api({
+    const options = {
       method: 'POST',
       url: `${api_server}/articles/${title}/comments`,
       headers: {
@@ -77,10 +77,11 @@ class Article {
       },
       body: {
         comment: {
-          body: `${comment}`,
+          body: comment,
         },
       },
-    })
+    };
+    return cy.api(options);
   }
 
   getAllCommentsFromArticle(api_server, title) {
