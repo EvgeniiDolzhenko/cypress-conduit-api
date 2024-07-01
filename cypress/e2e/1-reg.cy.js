@@ -43,11 +43,10 @@ describe('Register new client negative', () => {
   })
 
   it('Register client with existiing email', () => {
-    const newUsername = faker.person.fullName()
     const data = {
       email: Cypress.env('email'),
       password: '123',
-      username: newUsername,
+      username: randomUsername,
     }
     registration.registerNewClient(api_server, data).then(response => {
       expect(response.status).eq(422)
@@ -56,13 +55,12 @@ describe('Register new client negative', () => {
   })
 
   it('Register client with existiing username', () => {
-    const newEmail = faker.internet.email()
     loginPage
       .login(api_server, existingEmail, existingPass)
       .its('body.user.username')
       .then(username => {
         const data = {
-          email: newEmail,
+          email: randomEmail,
           password: '123',
           username: username,
         }

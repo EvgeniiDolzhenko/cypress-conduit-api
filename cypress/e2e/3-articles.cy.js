@@ -1,6 +1,6 @@
 import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
-import {tags, tag, description, articleInfo} from '../support/helper'
+import {tags, tag, description, articleInfo,title} from '../support/helper'
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
@@ -13,7 +13,6 @@ describe('Get all articles', () => {
 })
 
 describe('Create new article, verify , delete E2E API', () => {
-  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
 
   before('Create new article', function () {
     articlePage.createNewArticle(title, description, articleInfo, tags).then(response => {
@@ -91,7 +90,6 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
 
 describe('Getting article by tag', () => {
   const newTag = [faker.lorem.words(1)]
-  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
 
   before('Create article with new tag', () => {
     articlePage.createNewArticle(title, description, articleInfo, newTag).then(response => {
@@ -115,7 +113,6 @@ describe('Getting article by tag', () => {
 })
 
 describe('Favorite article', () => {
-  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
 
   before('Create new article', () => {
     articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
@@ -137,7 +134,7 @@ describe('Favorite article', () => {
 })
 
 describe('Create Article and Verify Post is Unavailable for Logged-Out User', () => {
-  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
+
   before('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tag)
@@ -162,7 +159,7 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
 })
 
 describe('Create article with existing title name', () => {
-  const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
+
   before('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tag)
