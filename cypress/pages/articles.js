@@ -52,20 +52,17 @@ class Article {
   }
 
   getAllArticles(api_server, permission) {
+    const options = {
+      method: 'GET',
+      url: `${api_server}/articles?limit=10&offset=0`,
+    };
+  
     if (permission === 'loggedIn') {
-      return cy.api({
-        method: 'GET',
-        url: `${api_server}/articles?limit=10&offset=0`,
-        headers: {
-          Authorization: 'Token ' + Cypress.env('token'),
-        },
-      })
-    } else {
-      return cy.api({
-        method: 'GET',
-        url: `${api_server}/articles?limit=10&offset=0`,
-      })
+      options.headers = {
+        Authorization: 'Token ' + Cypress.env('token'),
+      };
     }
+    return cy.api(options);
   }
 
   addComment(api_server, title, comment) {

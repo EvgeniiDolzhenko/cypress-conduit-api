@@ -1,6 +1,6 @@
 import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
-
+import { tags, tag } from '../support/helper'
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
@@ -13,7 +13,6 @@ describe('Get all articles', () => {
 })
 
 describe('Create new article, verify , delete E2E API', () => {
-  const tags = ['fashion', 'art', 'music']
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
@@ -93,23 +92,23 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
 })
 
 describe('Getting article by tag', () => {
-  const tag = [faker.lorem.words(1)]
+  const newTag = [faker.lorem.words(1)]
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
 
   before('Create article with new tag', () => {
-    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
+    articlePage.createNewArticle(title, description, articleInfo, newTag).then(response => {
       cy.wrap(response.body.article.slug).as('articleSlug')
       expect(response.status).eq(201)
     })
   })
 
   it('Verify new article with tag', function () {
-    articlePage.getArticleByTag(api_server, tag).then(response => {
+    articlePage.getArticleByTag(api_server, newTag).then(response => {
       expect(response.status).eq(200)
       expect(response.body.articles[0].slug).eq(this.articleSlug)
-      expect(response.body.articles[0].tagList).deep.eq(tag)
+      expect(response.body.articles[0].tagList).deep.eq(newTag)
     })
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
     articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
@@ -120,7 +119,6 @@ describe('Getting article by tag', () => {
 })
 
 describe('Favorite article', () => {
-  const tag = [faker.lorem.words(1)]
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
@@ -145,7 +143,6 @@ describe('Favorite article', () => {
 })
 
 describe('Create Article and Verify Post is Unavailable for Logged-Out User', () => {
-  const tag = [faker.lorem.words(1)]
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
@@ -173,7 +170,6 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
 })
 
 describe('Create article with existing title name', () => {
-  const tag = [faker.lorem.words(1)]
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
   const description = faker.lorem.sentences(1)
   const articleInfo = faker.lorem.sentences(3)
