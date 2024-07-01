@@ -1,5 +1,4 @@
 import {loginPage} from '../pages/login'
-
 const email = Cypress.env('email')
 const pass = Cypress.env('pass')
 const api_server = Cypress.env('api_server')

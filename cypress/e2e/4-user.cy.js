@@ -1,6 +1,6 @@
 const email = Cypress.env('email')
 const api_server = Cypress.env('api_server')
-import { tags } from '../support/helper'
+import {tags, articleInfo, description} from '../support/helper'
 import {articlePage} from '../pages/articles'
 import {user} from '../pages/user'
 import {faker} from '@faker-js/faker'
@@ -44,9 +44,6 @@ describe('Update image', () => {
 
 describe('Create a new post ->Verify the post appears in the feed -> Verify the post is not visible to a logged-out user. ', () => {
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
-  const description = faker.lorem.sentences(1)
-  const articleInfo = faker.lorem.sentences(3)
-
   beforeEach('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tags)
@@ -87,8 +84,6 @@ describe('Create a new post ->Verify the post appears in the feed -> Verify the 
 
 describe('Verify user posts amount', () => {
   const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
-  const description = faker.lorem.sentences(1)
-  const articleInfo = faker.lorem.sentences(3)
   before('Get username, get all user articles', function () {
     user
       .getUserInfo()

@@ -1,18 +1,18 @@
 import {faker} from '@faker-js/faker'
 import {registration} from '../pages/reg'
 import {loginPage} from '../pages/login'
+import {randomEmail, randomUsername} from '../support/helper'
+
 const api_server = Cypress.env('api_server')
 const existingEmail = Cypress.env('email')
 const existingPass = Cypress.env('pass')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
 describe('Register new client negative', () => {
-  const email = faker.internet.email()
-  const username = faker.person.fullName()
   it('Register new client without email', () => {
     const data = {
       password: '123',
-      username: username,
+      username: randomUsername,
     }
     registration.registerNewClient(api_server, data).then(response => {
       expect(response.status).eq(422)
@@ -22,7 +22,7 @@ describe('Register new client negative', () => {
 
   it('Register new client without username', () => {
     const data = {
-      email: email,
+      email: randomEmail,
       password: '123',
     }
 

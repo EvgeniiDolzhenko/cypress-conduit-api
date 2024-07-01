@@ -55,14 +55,14 @@ class Article {
     const options = {
       method: 'GET',
       url: `${api_server}/articles?limit=10&offset=0`,
-    };
-  
+    }
+
     if (permission === 'loggedIn') {
       options.headers = {
         Authorization: 'Token ' + Cypress.env('token'),
-      };
+      }
     }
-    return cy.api(options);
+    return cy.api(options)
   }
 
   addComment(api_server, title, comment) {
@@ -77,8 +77,8 @@ class Article {
           body: comment,
         },
       },
-    };
-    return cy.api(options);
+    }
+    return cy.api(options)
   }
 
   getAllCommentsFromArticle(api_server, title) {
