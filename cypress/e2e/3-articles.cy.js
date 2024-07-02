@@ -1,6 +1,5 @@
 import {articlePage} from '../pages/articles'
-import {faker} from '@faker-js/faker'
-import {tags, tag, description, articleInfo, title} from '../support/helper'
+import {tags, tag, description, articleInfo, title, comment} from '../support/helper'
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
@@ -44,7 +43,6 @@ describe('Create new article, verify , delete E2E API', () => {
 })
 
 describe('Get random article, add comment, verify new comment E2E API', () => {
-  const comment = faker.lorem.sentences(1)
   let getRandomArticle
   beforeEach('Get random article, add comment, verify comment added', () => {
     articlePage.getAllArticles(api_server, 'loggedIn').then(response => {
@@ -88,20 +86,18 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
 })
 
 describe('Getting article by tag', () => {
-  const newTag = [faker.lorem.words(1)]
-
   before('Create article with new tag', () => {
-    articlePage.createNewArticle(title, description, articleInfo, newTag).then(response => {
+    articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
       cy.wrap(response.body.article.slug).as('articleSlug')
       expect(response.status).eq(201)
     })
   })
 
   it('Verify new article with tag', function () {
-    articlePage.getArticleByTag(api_server, newTag).then(response => {
+    articlePage.getArticleByTag(api_server, tag).then(response => {
       expect(response.status).eq(200)
       expect(response.body.articles[0].slug).eq(this.articleSlug)
-      expect(response.body.articles[0].tagList).deep.eq(newTag)
+      expect(response.body.articles[0].tagList).deep.eq(tag)
     })
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
     articlePage.getArticleByTitle(title, 'loggedIn').then(response => {

@@ -10,7 +10,7 @@ describe('Positive scenario', () => {
   it('login succses status code, token', () => {
     loginPage.login(api_server, email, pass).then(response => {
       expect(response.status).eq(200)
-      cy.wrap(response.body.user.token).should('be.a', 'string')
+      cy.wrap(response.body.user.token).should('be.a', 'string').and('eq', Cypress.env('token'))
     })
   })
 })

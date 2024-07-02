@@ -1,4 +1,3 @@
-import {faker} from '@faker-js/faker'
 import {registration} from '../pages/reg'
 import {loginPage} from '../pages/login'
 import {randomEmail, randomUsername} from '../support/helper'

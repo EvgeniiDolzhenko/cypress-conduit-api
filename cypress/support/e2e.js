@@ -17,5 +17,14 @@ before('Getting the token', () => {
     },
   }).then(response => {
     Cypress.env('token', response.body.user.token)
+    cy.api({
+      method: 'GET',
+      url: `${url}/user`,
+      headers: {
+        Authorization: 'Token ' + Cypress.env('token'),
+      },
+    }).then(response => {
+      Cypress.env('userId', response.body.user.id)
+    })
   })
 })

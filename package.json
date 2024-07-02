@@ -1,7 +1,7 @@
 {
   "name": "cypress-conduit-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API utomation testing with Cypress",
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
@@ -10,7 +10,7 @@
     "format": "prettier cypress/ --write --list-different"
   },
   "keywords": [],
-  "author": "",
+  "author": "Eugene Dolzhenko",
   "license": "ISC",
   "devDependencies": {
     "cypress": "^13.8.1",
