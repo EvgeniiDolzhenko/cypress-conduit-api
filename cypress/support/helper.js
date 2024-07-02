@@ -7,4 +7,4 @@ const randomUsername = faker.person.fullName()
 const description = faker.lorem.sentences(1)
 const articleInfo = faker.lorem.sentences(3)
 const title = faker.lorem.words(1) + `${Cypress._.random(0, 999)}`
-export {tags, tag, randomEmail, randomUsername, description, articleInfo,title}
+export {tags, tag, randomEmail, randomUsername, description, articleInfo, title}

@@ -1,6 +1,6 @@
 import {articlePage} from '../pages/articles'
 import {faker} from '@faker-js/faker'
-import {tags, tag, description, articleInfo,title} from '../support/helper'
+import {tags, tag, description, articleInfo, title} from '../support/helper'
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
@@ -13,7 +13,6 @@ describe('Get all articles', () => {
 })
 
 describe('Create new article, verify , delete E2E API', () => {
-
   before('Create new article', function () {
     articlePage.createNewArticle(title, description, articleInfo, tags).then(response => {
       expect(response.status).eq(201)
@@ -113,7 +112,6 @@ describe('Getting article by tag', () => {
 })
 
 describe('Favorite article', () => {
-
   before('Create new article', () => {
     articlePage.createNewArticle(title, description, articleInfo, tag).then(response => {
       cy.wrap(response.body.article.slug).as('articleSlug')
@@ -134,7 +132,6 @@ describe('Favorite article', () => {
 })
 
 describe('Create Article and Verify Post is Unavailable for Logged-Out User', () => {
-
   before('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tag)
@@ -159,7 +156,6 @@ describe('Create Article and Verify Post is Unavailable for Logged-Out User', ()
 })
 
 describe('Create article with existing title name', () => {
-
   before('Create new article', function () {
     articlePage
       .createNewArticle(title, description, articleInfo, tag)
