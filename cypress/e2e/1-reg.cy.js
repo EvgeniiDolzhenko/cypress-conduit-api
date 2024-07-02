@@ -66,7 +66,7 @@ describe('Register new client negative', () => {
         }
         registration.registerNewClient(api_server, data).then(response => {
           expect(response.status).eq(422)
-          expect(response.body.errors.username['has already been taken'])
+          expect(response.body.errors.username).deep.eq(['has already been taken'])
         })
       })
   })
