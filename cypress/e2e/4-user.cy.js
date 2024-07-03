@@ -110,3 +110,31 @@ describe('Verify user posts amount', () => {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
+
+describe('Adding comment by loggedout user', () => {
+  let adminTitle
+  it('Get admin article title and add comment by logout user -> Expected status 401', () => {
+    articlePage.getAllArticles(api_server, 'loggedOut').then(response => {
+      let articlesLength = response.body.articles.length
+      adminTitle = response.body.articles[Cypress._.random(0, articlesLength - 1)].slug
+      articlePage
+        .addComment(api_server, adminTitle, 'test', 'loggedOut')
+        .should('deep.include', {status: 401})
+        .its('body.message')
+    })
+  })
+
+  it('Get admin article title and add comment by logout user -> Expected error missing authorization credentials', () => {
+    articlePage.getAllArticles(api_server, 'loggedOut').then(response => {
+      let articlesLength = response.body.articles.length
+      adminTitle = response.body.articles[Cypress._.random(0, articlesLength - 1)].slug
+      articlePage
+        .addComment(api_server, adminTitle, 'test', 'loggedOut')
+        .its('body.message')
+        .should('eq', 'missing authorization credentials')
+    })
+  })
+
+
+
+})

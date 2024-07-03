@@ -22,22 +22,17 @@ class Article {
   }
 
   getArticleByTitle(title, permission) {
-    if (permission === 'loggedIn') {
-      return cy.api({
-        method: 'GET',
-        failOnStatusCode: false,
-        url: `${api_server}/articles/${title}-2980`,
-        headers: {
-          Authorization: 'Token ' + Cypress.env('token'),
-        },
-      })
-    } else {
-      return cy.api({
-        method: 'GET',
-        failOnStatusCode: false,
-        url: `${api_server}/articles/${title}-2980`,
-      })
+    const options = {
+      method: 'GET',
+      failOnStatusCode: false,
+      url: `${api_server}/articles/${title}-2980`,
     }
+    if (permission === 'loggedIn') {
+      options.headers = {
+        Authorization: 'Token ' + Cypress.env('token'),
+      }
+    }
+    return cy.api(options)
   }
 
   deleteArticle(title) {
@@ -56,7 +51,6 @@ class Article {
       method: 'GET',
       url: `${api_server}/articles?limit=10&offset=0`,
     }
-
     if (permission === 'loggedIn') {
       options.headers = {
         Authorization: 'Token ' + Cypress.env('token'),
@@ -65,18 +59,21 @@ class Article {
     return cy.api(options)
   }
 
-  addComment(api_server, title, comment) {
+  addComment(api_server, title, comment, permission) {
     const options = {
       method: 'POST',
+      failOnStatusCode: false,
       url: `${api_server}/articles/${title}/comments`,
-      headers: {
-        Authorization: 'Token ' + Cypress.env('token'),
-      },
       body: {
         comment: {
           body: comment,
         },
       },
+    }
+    if (permission === 'loggedIn') {
+      options.headers = {
+        Authorization: 'Token ' + Cypress.env('token'),
+      }
     }
     return cy.api(options)
   }

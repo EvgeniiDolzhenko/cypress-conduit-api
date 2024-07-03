@@ -49,7 +49,7 @@ describe('Get random article, add comment, verify new comment E2E API', () => {
       const randomSlug = Cypress._.random(0, response.body.articles.length - 1)
       getRandomArticle = response.body.articles[randomSlug].slug
       articlePage
-        .addComment(api_server, getRandomArticle, comment)
+        .addComment(api_server, getRandomArticle, comment, 'loggedIn')
         .its('body.comment.id')
         .should('be.a', 'number')
         .as('commentId')

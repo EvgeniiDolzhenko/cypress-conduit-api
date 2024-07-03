@@ -18,7 +18,7 @@
 
 🔹 Using global hook, before hook, beforeEach, afterEach. 
 
-🔹 .yml file for Git Ations
+🔹 .yml file for GitActions
 
 and many more. 
 

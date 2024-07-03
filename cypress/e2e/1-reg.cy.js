@@ -13,10 +13,11 @@ describe('Register new client negative', () => {
       password: '123',
       username: randomUsername,
     }
-    registration.registerNewClient(api_server, data).then(response => {
-      expect(response.status).eq(422)
-      expect(response.body.errors.email).deep.eq(["can't be blank"])
-    })
+    registration
+      .registerNewClient(api_server, data)
+      .should('deep.include', {status: 422})
+      .its('body.errors.email')
+      .should('deep.equal', ["can't be blank"])
   })
 
   it('Register new client without username', () => {
@@ -24,21 +25,22 @@ describe('Register new client negative', () => {
       email: randomEmail,
       password: '123',
     }
-
-    registration.registerNewClient(api_server, data).then(response => {
-      expect(response.status).eq(422)
-      expect(response.body.errors.username).deep.eq(["can't be blank"])
-    })
+    registration
+      .registerNewClient(api_server, data)
+      .should('deep.include', {status: 422})
+      .its('body.errors.username')
+      .should('deep.equal', ["can't be blank"])
   })
 
   it('Register new client without username and email', () => {
     const data = {
       password: '123',
     }
-    registration.registerNewClient(api_server, data).then(response => {
-      expect(response.status).eq(422)
-      expect(response.body.errors.email).deep.eq(["can't be blank"])
-    })
+    registration
+      .registerNewClient(api_server, data)
+      .should('deep.include', {status: 422})
+      .its('body.errors.email')
+      .should('deep.equal', ["can't be blank"])
   })
 
   it('Register client with existiing email', () => {
@@ -63,10 +65,12 @@ describe('Register new client negative', () => {
           password: '123',
           username: username,
         }
-        registration.registerNewClient(api_server, data).then(response => {
-          expect(response.status).eq(422)
-          expect(response.body.errors.username).deep.eq(['has already been taken'])
-        })
+        registration
+          .registerNewClient(api_server, data)
+          .should('deep.include', {status: 422})
+          .then(response => {
+            expect(response.body.errors.username).deep.eq(['has already been taken'])
+          })
       })
   })
 })
