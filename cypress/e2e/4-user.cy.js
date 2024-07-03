@@ -11,7 +11,7 @@ describe('Update user bio', () => {
       .should('deep.include', {status: 200})
       .its('body.user')
       .should('deep.include', {
-        id: 2980,
+        id: Cypress.env('userId'),
         token: Cypress.env('token'),
         email,
         bio,
