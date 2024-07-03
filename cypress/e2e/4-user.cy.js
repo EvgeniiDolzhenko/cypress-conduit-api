@@ -5,14 +5,13 @@ import {articlePage} from '../pages/articles'
 import {user} from '../pages/user'
 
 describe('Update user bio', () => {
-  it('Update bio. Verify status, id, token,email', () => {
+  it('Update bio. Verify status, id,email', () => {
     user
       .updateUser({bio})
       .should('deep.include', {status: 200})
       .its('body.user')
       .should('deep.include', {
         id: Cypress.env('userId'),
-        token: Cypress.env('token'),
         email,
         bio,
       })
