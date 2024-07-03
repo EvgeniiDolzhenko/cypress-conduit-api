@@ -1,7 +1,7 @@
 {
   "name": "cypress-conduit-api",
   "version": "1.0.0",
-  "description": "API utomation testing with Cypress",
+  "description": "API Automation Testing with Cypress",
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",

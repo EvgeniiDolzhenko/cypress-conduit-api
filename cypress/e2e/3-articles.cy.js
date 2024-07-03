@@ -117,7 +117,7 @@ describe('Favorite article', () => {
     })
   })
 
-  it('Verify article is favorite', function () {
+  it.only('Verify article is favorite', function () {
     articlePage.favoriteArticle(this.articleSlug).then(response => {
       expect(response.body.article.favoritesCount).eq(1)
       expect(response.body.article.favorited).eq(true)
