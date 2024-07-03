@@ -16,7 +16,13 @@
 
 🔹 Using Prettier to format scripts
 
-and many more. The repo will be continuously updated with many more enhancements.
+🔹 Using global hook, before hook, beforeEach, afterEach. 
+
+🔹 .yml file for Git Ations
+
+and many more. 
+
+The repository will be updated periodically.
 
 Instalation : 
 1. npm install
