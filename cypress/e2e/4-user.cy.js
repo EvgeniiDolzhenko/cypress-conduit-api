@@ -120,7 +120,6 @@ describe('Adding comment by loggedout user', () => {
       articlePage
         .addComment(api_server, adminTitle, 'test', 'loggedOut')
         .should('deep.include', {status: 401})
-        .its('body.message')
     })
   })
 
@@ -134,7 +133,4 @@ describe('Adding comment by loggedout user', () => {
         .should('eq', 'missing authorization credentials')
     })
   })
-
-
-
 })
