@@ -1,6 +1,7 @@
 ///<reference types="cypress-plugin-api" />
 const api_server = Cypress.env('api_server')
 
+
 class Article {
   createNewArticle(title, description, articleInfo, tags) {
     return cy.api({
@@ -25,7 +26,7 @@ class Article {
     const options = {
       method: 'GET',
       failOnStatusCode: false,
-      url: `${api_server}/articles/${title}-2980`,
+      url: `${api_server}/articles/${title}-${Cypress.env('userId')}`,
     }
     if (permission === 'loggedIn') {
       options.headers = {
@@ -39,7 +40,7 @@ class Article {
     return cy.api({
       method: 'DELETE',
       failOnStatusCode: false,
-      url: `${api_server}/articles/${title}-2980`,
+      url: `${api_server}/articles/${title}-${Cypress.env('userId')}`,
       headers: {
         Authorization: 'Token ' + Cypress.env('token'),
       },

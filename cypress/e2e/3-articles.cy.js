@@ -3,6 +3,7 @@ import {tags, tag, description, articleInfo, title, comment} from '../support/he
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
+
 describe('Get all articles', () => {
   it('Verify list of the articles', () => {
     articlePage.getAllArticles(api_server, 'loggedIn').then(response => {
@@ -15,14 +16,14 @@ describe('Create new article, verify , delete E2E API', () => {
   before('Create new article', function () {
     articlePage.createNewArticle(title, description, articleInfo, tags).then(response => {
       expect(response.status).eq(201)
-      expect(response.body.article.slug).include(title + '-2980')
+      expect(response.body.article.slug).include(`${title}-${Cypress.env('userId')}`)
     })
   })
 
   it('Verify new post status and slug', function () {
     articlePage.getArticleByTitle(title, 'loggedIn').then(response => {
       expect(response.status).eq(200)
-      expect(response.body.article.slug).include(title + '-2980')
+      expect(response.body.article.slug).include(`${title}-${Cypress.env('userId')}`)
     })
   })
 
