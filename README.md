@@ -33,8 +33,8 @@ Instalation :
     
     >"cy:run": "cypress run --browser chrome",
 
-The test suite is built for testing a single user, credentials are in `cypress.env.json`
 Testing site : https://conduit.bondaracademy.com/
+Feel free to put your testing user in  `cypress.env.json`.
 
 Video by Gleb Bahmutov about refactoring this test suite: 
 https://www.youtube.com/watch?v=zGO3LNx-agk
