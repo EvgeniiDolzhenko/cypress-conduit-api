@@ -3,7 +3,6 @@ import {tags, tag, description, articleInfo, title, comment} from '../support/he
 const api_server = Cypress.env('api_server')
 expect(api_server, 'api_server').to.be.a('string').and.not.be.empty
 
-
 describe('Get all articles', () => {
   it('Verify list of the articles', () => {
     articlePage.getAllArticles(api_server, 'loggedIn').then(response => {
@@ -122,7 +121,7 @@ describe('Favorite article', () => {
     articlePage.favoriteArticle(this.articleSlug).then(response => {
       expect(response.body.article.favoritesCount).eq(1)
       expect(response.body.article.favorited).eq(true)
-      expect(response.body.article.favoritedBy[0].id).eq(2980)
+      expect(response.body.article.favoritedBy[0].id).eq(Cypress.env('userId'))
     })
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })

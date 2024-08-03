@@ -1,7 +1,6 @@
 ///<reference types="cypress-plugin-api" />
 const api_server = Cypress.env('api_server')
 
-
 class Article {
   createNewArticle(title, description, articleInfo, tags) {
     return cy.api({

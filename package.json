@@ -2,7 +2,6 @@
   "name": "cypress-conduit-api",
   "version": "1.0.0",
   "description": "API Automation Testing with Cypress",
-  "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --browser chrome",
