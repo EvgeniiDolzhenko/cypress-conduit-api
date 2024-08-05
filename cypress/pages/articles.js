@@ -59,6 +59,19 @@ class Article {
     return cy.api(options)
   }
 
+  getArticles(api_server, permission, limit) {
+    const options = {
+      method: 'GET',
+      url: `${api_server}/articles?${limit}=10&offset=0`,
+    }
+    if (permission === 'loggedIn') {
+      options.headers = {
+        Authorization: 'Token ' + Cypress.env('token'),
+      }
+    }
+    return cy.api(options)
+  }
+
   addComment(api_server, title, comment, permission) {
     const options = {
       method: 'POST',

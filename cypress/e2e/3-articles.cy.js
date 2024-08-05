@@ -171,3 +171,11 @@ describe('Create article with existing title name', () => {
     articlePage.deleteArticle(title).should('have.property', 'status', 204)
   })
 })
+
+describe('Verify article limits',()=>{
+  it('Verify default 10 limit posts',()=>{
+    articlePage.getArticles(api_server, 'loggedIn','10').then((response)=>{
+      expect(response.body.articles).to.be.an('array').that.has.lengthOf(10);
+    })
+  })
+})
