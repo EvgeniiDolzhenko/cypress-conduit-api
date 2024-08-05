@@ -62,7 +62,7 @@ class Article {
   getArticles(api_server, permission, limit) {
     const options = {
       method: 'GET',
-      url: `${api_server}/articles?${limit}=10&offset=0`,
+      url: `${api_server}/articles?limit=${limit}&offset=0`,
     }
     if (permission === 'loggedIn') {
       options.headers = {
